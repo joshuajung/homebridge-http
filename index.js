@@ -105,6 +105,11 @@ JositorAccessory.prototype = {
 		}.bind(this));
 	},
 
+	setCurrentGarageState: function(requestedState, callback) {
+		this.log("setCurrentGarageState requested, new state " + requestedState);
+		callback();
+	},
+
 
 	identify: function(callback) {
 		this.log("Identify requested!");
@@ -126,6 +131,7 @@ JositorAccessory.prototype = {
 
 		this.garageService = new Service.GarageDoorOpener(this.name);
 		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('get', this.getCurrentGarageState.bind(this));
+		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('set', this.setCurrentGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('get', this.getTargetGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('set', this.setTargetGarageState.bind(this));
 
