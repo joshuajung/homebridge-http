@@ -1,6 +1,5 @@
 var Service, Characteristic;
 var request = require("request");
-var pollingtoevent = require('polling-to-event');
 
 module.exports = function(homebridge){
 	Service = homebridge.hap.Service;
@@ -8,41 +7,22 @@ module.exports = function(homebridge){
 	homebridge.registerAccessory("homebridge-jositor", "Jositor", JositorAccessory);
 }
 
-
 function JositorAccessory(log, config) {
+	var that = this;
 	this.log = log;
 
 	// JoSi Configuration
-	this.open_url			= config["open_url"];
-	this.open_body			= config["open_body"];
-
-	// url info
-	this.on_url                 = config["on_url"];
-	this.on_body                = config["on_body"];
-	this.off_url                = config["off_url"];
-	this.off_body               = config["off_body"];
-	this.status_url             = config["status_url"];
-	this.brightness_url         = config["brightness_url"];
-	this.brightnesslvl_url      = config["brightnesslvl_url"];
+	this.open_url				= config["open_url"];
+	this.open_body				= config["open_body"];
 	this.http_method            = config["http_method"] 	  	 	|| "GET";
-	this.http_brightness_method = config["http_brightness_method"]  || this.http_method;
 	this.username               = config["username"] 	  	 	 	|| "";
 	this.password               = config["password"] 	  	 	 	|| "";
 	this.sendimmediately        = config["sendimmediately"] 	 	|| "";
 	this.service                = config["service"] 	  	 	 	|| "Switch";
 	this.name                   = config["name"];
-	this.brightnessHandling     = config["brightnessHandling"] 	 	|| "no";
-	this.switchHandling 		= config["switchHandling"] 		 	|| "no";
 
-	//realtime polling info
-	this.state = false;
-	this.currentlevel = 0;
-	this.enableSet = true;
-	var that = this;
-
-	// Last Open request
+	// Current state
 	this.doorState = 1;
-	this.lastOpenRequest = 0;
 
 }
 
@@ -65,7 +45,6 @@ JositorAccessory.prototype = {
 		})
 	},
 
-
 	getCurrentGarageState: function(callback) {
 		this.log("getCurrentGarageState requested");
 		callback(null, this.doorState);
@@ -77,6 +56,7 @@ JositorAccessory.prototype = {
 	},
 
 	setTargetGarageState: function(requestedState, callback) {
+		var that = this;
 		// 1=close, 0=open
 		this.log("setTargetGarageState requested, new state " + requestedState);
 		if(requestedState == 0) {
