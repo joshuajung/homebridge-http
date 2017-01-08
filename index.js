@@ -76,7 +76,6 @@ JositorAccessory.prototype = {
 			this.log("Sending 'closed'")
 			callback(null, true)
 		}
-		callback(null, true);
 	},
 
 	getTargetGarageState: function(callback) {
