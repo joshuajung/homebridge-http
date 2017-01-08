@@ -61,8 +61,19 @@ JositorAccessory.prototype = {
 		})
 	},
 
-	setGarageState: function(requestedState, callback) {
-		this.log("setGarageState requested, new state " + requestedState);
+
+	getCurrentGarageState: function(callback) {
+		this.log("getTargetGarageState requested, sending 'closed'");
+		callback(null, true);
+	},
+
+	getTargetGarageState: function(callback) {
+		this.log("getTargetGarageState requested, sending 'opened'");
+		callback(null, false);
+	},
+
+	setTargetGarageState: function(requestedState, callback) {
+		this.log("setTargetGarageState requested, new state " + requestedState);
 		this.httpRequest(this.open_url, this.open_body, this.http_method, this.username, this.password, this.sendimmediately, function(error, response, responseBody) {
 			if (error) {
 				this.log('HTTP request failed: %s', error.message);
@@ -74,10 +85,6 @@ JositorAccessory.prototype = {
 		}.bind(this));
 	},
 
-	getGarageState: function(callback) {
-		this.log("getGarageState requested, sending 'closed'");
-		callback(null, true);
-	},
 
 	identify: function(callback) {
 		this.log("Identify requested!");
