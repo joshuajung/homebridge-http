@@ -90,6 +90,12 @@ JositorAccessory.prototype = {
 					this.log('HTTP request succeeded!');
 					this.doorState = 0;
 					this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.OPEN);
+					// Setzt Garage anschließend wieder auf "geschlossen" zurück
+					setTimeout(function() {
+						this.log("Set garage back to closed.");
+						this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
+						this.doorState = 1;
+					}, 60000);
 					callback();
 				}
 			}.bind(this));
