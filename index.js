@@ -116,7 +116,7 @@ JositorAccessory.prototype = {
 		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('get', this.getTargetGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.ObstructionDetected).on('get', this.getObstructionDetected.bind(this));
 
-		return [this.garageService];
+		return [this.garageService, informationService];
 
 	}
 
