@@ -92,10 +92,10 @@ JositorAccessory.prototype = {
 					this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.OPEN);
 					// Setzt Garage anschließend wieder auf "geschlossen" zurück
 					setTimeout(function() {
-						this.log("Set garage back to closed.");
-						this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
-						this.doorState = 1;
-					}, 60000).bind(this);
+						that.log("Set garage back to closed.");
+						that.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
+						that.doorState = 1;
+					}, 60000);
 					callback();
 				}
 			}.bind(this));
