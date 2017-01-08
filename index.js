@@ -96,6 +96,7 @@ JositorAccessory.prototype = {
 		} else {
 			this.doorState = 1;
 			this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
+			callback();
 		}
 	},
 
