@@ -98,7 +98,7 @@ JositorAccessory.prototype = {
 		.setCharacteristic(Characteristic.SerialNumber, "001");
 
 		this.garageService = new Service.GarageDoorOpener(this.name);
-		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('set', this.setGarageState.bind(this));
+		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('set', this.setGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('get', this.getGarageState.bind(this));
 
 		return [this.garageService];
