@@ -40,6 +40,9 @@ function JositorAccessory(log, config) {
 	this.enableSet = true;
 	var that = this;
 
+	// Last Open request
+	this.lastOpenRequest = 0;
+
 }
 
 JositorAccessory.prototype = {
@@ -63,17 +66,35 @@ JositorAccessory.prototype = {
 
 
 	getCurrentGarageState: function(callback) {
-		this.log("getTargetGarageState requested, sending 'closed'");
+		this.log("getCurrentGarageState requested");
+		var secondsSinceLastRequest = (Date.now() - this.lastOpenRequest) / 1000;
+		this.log(secondsSinceLastRequest + " seconds passed since last request");
+		if(secondsSinceLastRequest > 15 && secondsSinceLastRequest < 60) {
+			this.log("Sending 'open'")
+			callback(null, false)
+		} else {
+			this.log("Sending 'closed'")
+			callback(null, true)
+		}
 		callback(null, true);
 	},
 
 	getTargetGarageState: function(callback) {
-		this.log("getTargetGarageState requested, sending 'opened'");
-		callback(null, false);
+		this.log("getTargetGarageState requested");
+		var secondsSinceLastRequest = (Date.now() - this.lastOpenRequest) / 1000;
+		this.log(secondsSinceLastRequest + " seconds passed since last request");
+		if(secondsSinceLastRequest < 60) {
+			this.log("Sending 'open'")
+			callback(null, false)
+		} else {
+			this.log("Sending 'closed'")
+			callback(null, true)
+		}
 	},
 
 	setTargetGarageState: function(requestedState, callback) {
 		this.log("setTargetGarageState requested, new state " + requestedState);
+		this.lastOpenRequest = Date.now()
 		this.httpRequest(this.open_url, this.open_body, this.http_method, this.username, this.password, this.sendimmediately, function(error, response, responseBody) {
 			if (error) {
 				this.log('HTTP request failed: %s', error.message);
