@@ -73,6 +73,7 @@ JositorAccessory.prototype = {
 					// Setzt Garage anschließend wieder auf "geschlossen" zurück
 					setTimeout(function() {
 						that.log("Set garage back to closed.");
+						that.garageService.setCharacteristic(Characteristic.TargetDoorState, Characteristic.TargetDoorState.CLOSED);
 						that.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
 						that.doorState = 1;
 					}, 60000);
