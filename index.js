@@ -83,14 +83,17 @@ JositorAccessory.prototype = {
 			this.httpRequest(this.open_url, this.open_body, this.http_method, this.username, this.password, this.sendimmediately, function(error, response, responseBody) {
 				if (error) {
 					this.log('HTTP request failed: %s', error.message);
+					this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
 					callback(error);
 				} else {
 					this.log('HTTP request succeeded!');
+					this.doorState = 1;
 					this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.OPEN);
 					callback();
 				}
 			}.bind(this));
 		} else {
+			this.doorState = 0;
 			this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
 		}
 	},
