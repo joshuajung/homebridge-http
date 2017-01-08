@@ -131,7 +131,7 @@ JositorAccessory.prototype = {
 
 		this.garageService = new Service.GarageDoorOpener(this.name);
 		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('get', this.getCurrentGarageState.bind(this));
-		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('set', this.setCurrentGarageState.bind(this));
+		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('set', this.setTargetGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('get', this.getTargetGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.ObstructionDetected).on('get', this.getObstructionDetected.bind(this));
 
