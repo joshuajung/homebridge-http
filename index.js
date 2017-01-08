@@ -100,7 +100,7 @@ JositorAccessory.prototype = {
 				callback(error);
 			} else {
 				this.log('HTTP request succeeded!');
-				garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.OPEN);
+				this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.OPEN);
 				callback();
 			}
 		}.bind(this));
