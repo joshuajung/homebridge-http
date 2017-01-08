@@ -41,6 +41,7 @@ function JositorAccessory(log, config) {
 	var that = this;
 
 	// Last Open request
+	this.doorState = 1;
 	this.lastOpenRequest = 0;
 
 }
@@ -67,50 +68,37 @@ JositorAccessory.prototype = {
 
 	getCurrentGarageState: function(callback) {
 		this.log("getCurrentGarageState requested");
-		var secondsSinceLastRequest = (Date.now() - this.lastOpenRequest) / 1000;
-		this.log(secondsSinceLastRequest + " seconds passed since last request");
-		if(secondsSinceLastRequest > 15 && secondsSinceLastRequest < 60) {
-			this.log("Sending 'open'")
-			callback(null, false)
-		} else {
-			this.log("Sending 'closed'")
-			callback(null, true)
-		}
+		callback(null, this.doorState);
 	},
 
 	getTargetGarageState: function(callback) {
 		this.log("getTargetGarageState requested");
-		var secondsSinceLastRequest = (Date.now() - this.lastOpenRequest) / 1000;
-		this.log(secondsSinceLastRequest + " seconds passed since last request");
-		if(secondsSinceLastRequest < 60) {
-			this.log("Sending 'open'")
-			callback(null, false)
-		} else {
-			this.log("Sending 'closed'")
-			callback(null, true)
-		}
+		callback(null, this.doorState);
 	},
 
 	setTargetGarageState: function(requestedState, callback) {
+		// 1=close, 0=open
 		this.log("setTargetGarageState requested, new state " + requestedState);
-		this.lastOpenRequest = Date.now()
-		this.httpRequest(this.open_url, this.open_body, this.http_method, this.username, this.password, this.sendimmediately, function(error, response, responseBody) {
-			if (error) {
-				this.log('HTTP request failed: %s', error.message);
-				callback(error);
-			} else {
-				this.log('HTTP request succeeded!');
-				this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.OPEN);
-				callback();
-			}
-		}.bind(this));
+		if(requestedState == 0) {
+			this.httpRequest(this.open_url, this.open_body, this.http_method, this.username, this.password, this.sendimmediately, function(error, response, responseBody) {
+				if (error) {
+					this.log('HTTP request failed: %s', error.message);
+					callback(error);
+				} else {
+					this.log('HTTP request succeeded!');
+					this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.OPEN);
+					callback();
+				}
+			}.bind(this));
+		} else {
+			this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
+		}
 	},
 
 	getObstructionDetected: function(callback) {
 		this.log("getObstructionDetected requested");
 		callback(null, false);
 	},
-
 
 	identify: function(callback) {
 		this.log("Identify requested!");
