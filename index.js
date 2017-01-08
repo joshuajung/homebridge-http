@@ -26,7 +26,7 @@ function JositorAccessory(log, config) {
 	this.status_url             = config["status_url"];
 	this.brightness_url         = config["brightness_url"];
 	this.brightnesslvl_url      = config["brightnesslvl_url"];
-	this.http_method            = config["http_method"] 	  	 	|| "GET";;
+	this.http_method            = config["http_method"] 	  	 	|| "GET";
 	this.http_brightness_method = config["http_brightness_method"]  || this.http_method;
 	this.username               = config["username"] 	  	 	 	|| "";
 	this.password               = config["password"] 	  	 	 	|| "";
@@ -103,4 +103,6 @@ JositorAccessory.prototype = {
 
 		return [this.garageService];
 
-	};
+	}
+
+};
