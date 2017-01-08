@@ -13,10 +13,8 @@ function JositorAccessory(log, config) {
 	this.log = log;
 
 	// JoSi Configuration
-	this.open_down_url			= config["open_down_url"];
-	this.open_up_url			= config["open_up_url"];
-	this.open_down_body			= config["open_down_body"];
-	this.open_up_body			= config["open_up_body"];
+	this.open_url			= config["open_url"];
+	this.open_body			= config["open_body"];
 
 	// url info
 	this.on_url                 = config["on_url"];
@@ -64,11 +62,8 @@ JositorAccessory.prototype = {
 	},
 
 	setGarageState: function(requestedState, callback) {
-
-		var url;
-		var body;
-
-		this.httpRequest(this.open_down_url, this.open_down_body, this.http_method, this.username, this.password, this.sendimmediately, function(error, response, responseBody) {
+		this.log("setGarageState requested, new state " + requestedState);
+		this.httpRequest(this.open_url, this.open_body, this.http_method, this.username, this.password, this.sendimmediately, function(error, response, responseBody) {
 			if (error) {
 				this.log('HTTP request failed: %s', error.message);
 				callback(error);
@@ -77,6 +72,11 @@ JositorAccessory.prototype = {
 				callback();
 			}
 		}.bind(this));
+	},
+
+	getGarageState: function(callback) {
+		this.log("getGarageState requested, sending 'closed'");
+		callback(null, false);
 	},
 
 	identify: function(callback) {
@@ -98,8 +98,8 @@ JositorAccessory.prototype = {
 		.setCharacteristic(Characteristic.SerialNumber, "001");
 
 		this.garageService = new Service.GarageDoorOpener(this.name);
-		this.garageService.getCharacteristic(Characteristic.CurrentDoorState)
-			.on('set', this.setGarageState.bind(this));
+		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('set', this.setGarageState.bind(this));
+		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('get', this.getGarageState.bind(this));
 
 		return [this.garageService];
 
