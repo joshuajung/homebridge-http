@@ -105,9 +105,9 @@ JositorAccessory.prototype = {
 		}.bind(this));
 	},
 
-	setCurrentGarageState: function(requestedState, callback) {
-		this.log("setCurrentGarageState requested, new state " + requestedState);
-		callback();
+	getObstructionDetected: function(callback) {
+		this.log("getObstructionDetected requested");
+		callback(null, false);
 	},
 
 
@@ -133,7 +133,7 @@ JositorAccessory.prototype = {
 		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('get', this.getCurrentGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('set', this.setCurrentGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('get', this.getTargetGarageState.bind(this));
-		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('set', this.setTargetGarageState.bind(this));
+		this.garageService.getCharacteristic(Characteristic.ObstructionDetected).on('get', this.getObstructionDetected.bind(this));
 
 		return [this.garageService];
 
