@@ -1,6 +1,6 @@
 {
-  "name": "homebridge-http",
-  "version": "0.0.9",
+  "name": "homebridge-jositor",
+  "version": "0.0.1",
   "description": "http(s) plugin for Homebridge: https://github.com/nfarina/homebridge",
   "license": "ISC",
   "keywords": [
@@ -16,10 +16,10 @@
   "contributors":[
   { "name" : "NovaGL"},
   { "name" : "David Parry"}
-  ], 
+  ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/rudders/homebridge-http.git"
+    "url": "git://github.com/joshuajung/homebridge-jositor.git"
   },
   "dependencies": {
     "request": "^2.65.0",
