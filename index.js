@@ -115,7 +115,7 @@ JositorAccessory.prototype = {
 					// Setzt Garage anschließend wieder auf "geschlossen" zurück
 					setTimeout(function() {
 						that.log("Set outlet back to off.");
-						//that.outletService.setCharacteristic(Characteristic.On, 0);
+						that.outletService.setCharacteristic(Characteristic.On, 0);
 						that.outletState = 0;
 					}, 5000);
 					callback();
