@@ -97,8 +97,8 @@ JositorAccessory.prototype = {
 		callback(); // success
 	},
 
-	switchTriggered: function(callback) {
-		this.log("Switch triggered");
+	outletOnTriggered: function(callback) {
+		this.log("outletOnTriggered triggered");
 		callback();
 	},
 
@@ -122,12 +122,12 @@ JositorAccessory.prototype = {
 		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('get', this.getTargetGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.ObstructionDetected).on('get', this.getObstructionDetected.bind(this));
 
-		// Schalterservices
-		this.switchService = new Service.StatelessProgrammableSwitch(this.name);
-		this.switchService.getCharacteristic(Characteristic.ProgrammableSwitchEvent).on('set', this.switchTriggered.bind(this));
+		// Outlet Service
+		this.outletService = new Service.Outlet(this.name);
+		this.switchService.getCharacteristic(Characteristic.On).on('set', this.outletOnTriggered.bind(this));
 
 		// Services returnen
-		return [this.switchService, informationService];
+		return [this.outletService, informationService];
 
 	}
 
