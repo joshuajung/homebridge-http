@@ -23,6 +23,7 @@ function JositorAccessory(log, config) {
 
 	// Current state
 	this.doorState = 1;
+	this.outletState = 0;
 
 }
 
@@ -99,34 +100,30 @@ JositorAccessory.prototype = {
 
 	outletOnTriggered: function(requestedState, callback) {
 		var that = this;
-		// 1=close, 0=open
 		this.log("outletOnTriggered requested, new state " + requestedState);
-		callback();
-		/*
-		if(requestedState == 0) {
+		if(requestedState == 1) {
 			this.httpRequest(this.open_url, this.open_body, this.http_method, this.username, this.password, this.sendimmediately, function(error, response, responseBody) {
 				if (error) {
-					this.doorState = 1;
+					this.doorState = 0;
 					this.log('HTTP request failed: %s', error.message);
-					this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
+					this.outletService.setCharacteristic(Characteristic.On, 0);
 					callback(error);
 				} else {
 					this.log('HTTP request succeeded!');
-					this.doorState = 0;
-					this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.OPEN);
+					this.doorState = 1;
+					this.outletService.setCharacteristic(Characteristic.On, 1);
 					// Setzt Garage anschließend wieder auf "geschlossen" zurück
 					setTimeout(function() {
-						that.log("Set garage back to closed.");
-						that.garageService.setCharacteristic(Characteristic.TargetDoorState, Characteristic.TargetDoorState.CLOSED);
-						that.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
-						that.doorState = 1;
-					}, 60000);
+						that.log("Set outlet back to off.");
+						that.outletService.setCharacteristic(Characteristic.On, 0);
+						that.doorState = 0;
+					}, 5000);
 					callback();
 				}
 			}.bind(this));
 		} else {
-			this.doorState = 1;
-			this.garageService.setCharacteristic(Characteristic.CurrentDoorState, Characteristic.CurrentDoorState.CLOSED);
+			this.outletState = 0;
+			this.outletService.setCharacteristic(Characteristic.On, 0);
 			callback();
 		}*/
 	},
