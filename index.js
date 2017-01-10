@@ -123,7 +123,7 @@ JositorAccessory.prototype = {
 		this.garageService.getCharacteristic(Characteristic.ObstructionDetected).on('get', this.getObstructionDetected.bind(this));
 
 		// Outlet Service
-		this.outletService = new Service.Outlet(this.name);
+		this.switchService = new Service.Switch(this.name);
 		this.switchService.getCharacteristic(Characteristic.On).on('set', this.outletOnTriggered.bind(this));
 
 		// Services returnen
