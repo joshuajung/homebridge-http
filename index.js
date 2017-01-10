@@ -125,7 +125,7 @@ JositorAccessory.prototype = {
 			this.outletState = 0;
 			this.outletService.setCharacteristic(Characteristic.On, 0);
 			callback();
-		}*/
+		}
 	},
 
 	getServices: function() {
