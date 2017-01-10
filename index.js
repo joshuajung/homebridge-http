@@ -116,19 +116,18 @@ JositorAccessory.prototype = {
 		.setCharacteristic(Characteristic.SerialNumber, "001");
 
 		// Garagenservices
-		/*
 		this.garageService = new Service.GarageDoorOpener(this.name);
 		this.garageService.getCharacteristic(Characteristic.CurrentDoorState).on('get', this.getCurrentGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('set', this.setTargetGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.TargetDoorState).on('get', this.getTargetGarageState.bind(this));
 		this.garageService.getCharacteristic(Characteristic.ObstructionDetected).on('get', this.getObstructionDetected.bind(this));
-		*/
 
 		// Schalterservices
 		this.switchService = new Service.StatelessProgrammableSwitch(this.name);
 		this.switchService.getCharacteristic(Characteristic.ProgrammableSwitchEvent).on('set', this.switchTriggered.bind(this));
 
-		return [this.garageService, informationService];
+		// Services returnen
+		return [this.switchService, informationService];
 
 	}
 
