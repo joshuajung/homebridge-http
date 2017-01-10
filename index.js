@@ -100,7 +100,7 @@ JositorAccessory.prototype = {
 	switchTriggered: function(callback) {
 		this.log("Switch triggered");
 		callback();
-	}
+	},
 
 	getServices: function() {
 
