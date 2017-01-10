@@ -104,26 +104,26 @@ JositorAccessory.prototype = {
 		if(requestedState == 1) {
 			this.httpRequest(this.open_url, this.open_body, this.http_method, this.username, this.password, this.sendimmediately, function(error, response, responseBody) {
 				if (error) {
-					this.doorState = 0;
+					this.outletState = 0;
 					this.log('HTTP request failed: %s', error.message);
-					this.outletService.setCharacteristic(Characteristic.On, 0);
+					//this.outletService.setCharacteristic(Characteristic.On, 0);
 					callback(error);
 				} else {
 					this.log('HTTP request succeeded!');
-					this.doorState = 1;
-					this.outletService.setCharacteristic(Characteristic.On, 1);
+					this.outletState = 1;
+					//this.outletService.setCharacteristic(Characteristic.On, 1);
 					// Setzt Garage anschließend wieder auf "geschlossen" zurück
 					setTimeout(function() {
 						that.log("Set outlet back to off.");
-						that.outletService.setCharacteristic(Characteristic.On, 0);
-						that.doorState = 0;
+						//that.outletService.setCharacteristic(Characteristic.On, 0);
+						that.outletState = 0;
 					}, 5000);
 					callback();
 				}
 			}.bind(this));
 		} else {
 			this.outletState = 0;
-			this.outletService.setCharacteristic(Characteristic.On, 0);
+			//this.outletService.setCharacteristic(Characteristic.On, 0);
 			callback();
 		}
 	},
