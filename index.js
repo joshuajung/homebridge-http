@@ -117,7 +117,7 @@ JositorAccessory.prototype = {
 						that.log("Set outlet back to off.");
 						that.outletService.setCharacteristic(Characteristic.On, 0);
 						that.outletState = 0;
-					}, 5000);
+					}, 2000);
 					callback();
 				}
 			}.bind(this));
